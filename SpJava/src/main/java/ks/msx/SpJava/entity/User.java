@@ -42,12 +42,12 @@ public class User implements UserDetails {
     @Column(name = "role")
     private Role role;
 
-    /* token represent an uid generated then creating and saving
+    /* token represent an uuid generated then creating and saving
     user to database, after this token will be used to confirm
     account from email message
     **/
-    @Column(name = "token_id")
-    private int token_id;
+    @Column(name = "auth_token")
+    private String auth_token;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -56,17 +56,17 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return isActive;
+        return isActive & authenticated;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return isActive;
+        return isActive & authenticated;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return isActive;
+        return isActive & authenticated;
     }
 
     @Override

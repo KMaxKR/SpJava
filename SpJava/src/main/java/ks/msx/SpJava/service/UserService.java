@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class UserService implements UserDetailsService {
@@ -26,15 +28,17 @@ public class UserService implements UserDetailsService {
                             .password(new BCryptPasswordEncoder(12).encode(dto.getPassword()))
                             .email(dto.getEmail())
                             .isActive(true)
-                            .token_id(0)
+                            .auth_token(UUID.randomUUID().toString())
                     .build());
     }
-    public void verifyAccount(String email, int token_id){
+    public void verifyAccount(String email, String auth_token){
         User user = userRepository.getUserByEmail(email);
-        // verify token from database and email message
-        if (user.getToken_id() == 0){
+        // verify authentication token from database with email message confirmation
+        if (user.getAuth_token().equals(auth_token)){
             user.setAuthenticated(true);
             userRepository.save(user);
         }
     }
+
+
 }
