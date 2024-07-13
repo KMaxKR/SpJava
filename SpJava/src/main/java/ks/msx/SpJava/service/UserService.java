@@ -31,7 +31,7 @@ public class UserService implements UserDetailsService {
     }
     public void verifyAccount(String email, int token_id){
         User user = userRepository.getUserByEmail(email);
-        //TODO
+        // verify token from database and email message
         if (user.getToken_id() == 0){
             user.setAuthenticated(true);
             userRepository.save(user);

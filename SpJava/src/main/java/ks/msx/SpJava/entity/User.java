@@ -42,6 +42,10 @@ public class User implements UserDetails {
     @Column(name = "role")
     private Role role;
 
+    /* token represent an uid generated then creating and saving
+    user to database, after this token will be used to confirm
+    account from email message
+    **/
     @Column(name = "token_id")
     private int token_id;
 
