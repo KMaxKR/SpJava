@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @AllArgsConstructor
 public class Controller {
@@ -30,5 +32,11 @@ public class Controller {
     public String sendVerify(){
         emailSender.sendMSG("maxcresciuc@gmail.com", "test", "text");
         return "sent";
+    }
+
+    @RequestMapping("/generate")
+    public String generateUUID(){
+        String uuid = UUID.randomUUID().toString();
+        return uuid;
     }
 }
