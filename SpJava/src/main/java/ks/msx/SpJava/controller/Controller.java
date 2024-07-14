@@ -37,7 +37,7 @@ public class Controller {
     }
 
     @RequestMapping("/generate")
-    public int generateUUID(){
+    public String generateUUID(){
         return confirmationToken.generateConfirmationToken();
     }
 }
