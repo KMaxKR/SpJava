@@ -2,6 +2,7 @@ package ks.msx.SpJava.controller;
 
 import ks.msx.SpJava.dto.UserDTO;
 import ks.msx.SpJava.service.UserService;
+import ks.msx.SpJava.utility.ConfirmationToken;
 import ks.msx.SpJava.utility.EmailSender;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import java.util.UUID;
 public class Controller {
     private final UserService userService;
     private final EmailSender emailSender;
+    private final ConfirmationToken confirmationToken;
 
     @GetMapping("/")
     public String getFeedback(){
@@ -35,8 +37,7 @@ public class Controller {
     }
 
     @RequestMapping("/generate")
-    public String generateUUID(){
-        String uuid = UUID.randomUUID().toString();
-        return uuid;
+    public int generateUUID(){
+        return confirmationToken.generateConfirmationToken();
     }
 }
