@@ -31,12 +31,4 @@ public class UserService implements UserDetailsService {
                             .auth_token(UUID.randomUUID().toString())
                     .build());
     }
-    public void verifyAccount(String email, String auth_token){
-        User user = userRepository.getUserByEmail(email);
-        // verify authentication token from database with email message confirmation
-        if (user.getAuth_token().equals(auth_token)){
-            user.setAuthenticated(true);
-            userRepository.save(user);
-        }
-    }
 }

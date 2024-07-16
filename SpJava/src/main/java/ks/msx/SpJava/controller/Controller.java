@@ -1,14 +1,13 @@
 package ks.msx.SpJava.controller;
 
+import jakarta.persistence.Column;
 import ks.msx.SpJava.dto.UserDTO;
 import ks.msx.SpJava.service.UserService;
 import ks.msx.SpJava.utility.ConfirmationToken;
 import ks.msx.SpJava.utility.EmailSender;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -31,13 +30,20 @@ public class Controller {
     }
 
     @RequestMapping("/send")
-    public String sendVerify(){
-        emailSender.sendMSG("maxcresciuc@gmail.com", "test", "text");
+    public String sendVerify(@RequestParam(name = "to_user") String to){
+        emailSender.sendMSG(to, "Authentication Token for account activation", confirmationToken.generateConfirmationToken());
         return "sent";
     }
 
     @RequestMapping("/generate")
     public String generateUUID(){
         return confirmationToken.generateConfirmationToken();
+    }
+
+    @RequestMapping("")
+    public String verification(@RequestParam(name = "email")String email,
+                               @RequestParam(name = "auth_token")String auth_token){
+        confirmationToken.confirmation(email, auth_token);
+        return "Verification";
     }
 }
