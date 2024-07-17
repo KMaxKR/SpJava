@@ -1,15 +1,11 @@
 package ks.msx.SpJava.controller;
 
-import jakarta.persistence.Column;
 import ks.msx.SpJava.dto.UserDTO;
 import ks.msx.SpJava.service.UserService;
 import ks.msx.SpJava.utility.ConfirmationToken;
 import ks.msx.SpJava.utility.EmailSender;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @RestController
 @AllArgsConstructor

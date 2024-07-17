@@ -31,6 +31,10 @@ public class UserService implements UserDetailsService {
                     .build());
     }
 
+    public void updateUser(User user){
+        userRepository.save(user);
+    }
+
     public User loadUserByEmail(String email){
         return userRepository.getUserByEmail(email).orElseThrow(() -> new RuntimeException("User not found by email"));
     }

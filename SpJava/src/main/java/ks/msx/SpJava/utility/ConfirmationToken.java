@@ -2,6 +2,7 @@ package ks.msx.SpJava.utility;
 
 import ks.msx.SpJava.entity.User;
 import ks.msx.SpJava.repository.UserRepository;
+import ks.msx.SpJava.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +11,7 @@ import java.util.Random;
 @Component
 @AllArgsConstructor
 public class ConfirmationToken {
-    private final UserRepository userRepository;
+    private final UserService userService;
     // TODO
     // database for confirmation tokens
     // verify token and confirmation
@@ -28,10 +29,10 @@ public class ConfirmationToken {
     }
 
     public void confirmation(String email, String auth_token){
-        User user = userRepository.getUserByEmail(email);
+        User user = userService.loadUserByEmail(email);
         if (user.getAuth_token().equals(auth_token)){
             user.setAuthenticated(true);
-            userRepository.save(user);
+            userService.updateUser(user);
         }
     }
 }
