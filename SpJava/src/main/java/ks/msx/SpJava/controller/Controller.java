@@ -5,14 +5,16 @@ import ks.msx.SpJava.service.UserService;
 import ks.msx.SpJava.utility.ConfirmationToken;
 import ks.msx.SpJava.utility.EmailSender;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Controller {
     private final UserService userService;
     private final EmailSender emailSender;
     private final ConfirmationToken confirmationToken;
+    private Long _user_id_ = 0L;
 
     @GetMapping("/")
     public String getFeedback(){
@@ -27,13 +29,14 @@ public class Controller {
 
     @RequestMapping("/send")
     public String sendVerify(@RequestParam(name = "to_user") String to){
-        emailSender.sendMSG(to, "Authentication Token for account activation", confirmationToken.generateConfirmationToken());
+        _user_id_ = userService.loadUserByUsername(to).getId();
+        emailSender.sendMSG(to, "Authentication Token for account activation", confirmationToken.generateConfirmationToken(_user_id_));
         return "sent";
     }
 
     @RequestMapping("/generate")
     public String generateUUID(){
-        return confirmationToken.generateConfirmationToken();
+        return confirmationToken.generateConfirmationToken(_user_id_);
     }
 
     @RequestMapping("")
